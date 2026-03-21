@@ -2,6 +2,27 @@
 
 PyTorch environment for macOS Metal (MPS) GPU acceleration on Apple Silicon.
 
+## Overview
+
+As an FYI the current notebooks in this repo were run on a MacBook Neo 8GB -- which is essentially an iPhone
+- Apple A18 Pro
+- MacOS 26.3.2
+
+```
+  Model Name:	MacBook Neo
+  Model Identifier:	Mac17,5
+  Model Number:	MHFG4LL/A
+  Chip:	Apple A18 Pro
+  Total Number of Cores:	6 (2 Performance and 4 Efficiency)
+  Memory:	8 GB
+  System Firmware Version:	13822.81.10
+  OS Loader Version:	13822.81.10
+
+  System Version:	macOS 26.3.2 (25D2140)
+  Kernel Version:	Darwin 25.3.0
+```
+
+
 ## Prerequisites
 
 - macOS 12.3+ on Apple Silicon (M1/M2/M3/M4)
