@@ -3,6 +3,8 @@ name = "metalcheck"
 version = "0.1.0"
 description = "PyTorch environment for macOS Metal (MPS) GPU acceleration on Apple Silicon"
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     { name = "Shawn Cicoria", email = "github@cicoria.com" }
 ]
