@@ -1,0 +1,51 @@
+[project]
+name = "metalcheck"
+version = "0.1.0"
+description = "PyTorch environment for macOS Metal (MPS) GPU acceleration on Apple Silicon"
+readme = "README.md"
+authors = [
+    { name = "Shawn Cicoria", email = "github@cicoria.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "torch>=2.0",
+    "torchvision",
+    "torchaudio",
+    "numpy",
+    "matplotlib",
+    "seaborn",
+    "pandas",
+    "scikit-learn",
+    "tqdm",
+]
+
+[project.scripts]
+check-mps = "metalcheck.device:main"
+
+[dependency-groups]
+dev = [
+    "jupyter",
+    "ipykernel",
+    "pytest",
+    "ruff",
+]
+
+[build-system]
+requires = ["uv_build>=0.10.12,<0.11.0"]
+build-backend = "uv_build"
+
+# --- uv-specific configuration ---
+[tool.uv]
+# Auto-detect the correct PyTorch backend (CPU/MPS on macOS ARM64)
+torch-backend = "auto"
+# Constrain dependency resolution to macOS Apple Silicon only
+required-environments = [
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
