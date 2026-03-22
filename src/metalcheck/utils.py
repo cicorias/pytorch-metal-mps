@@ -17,9 +17,11 @@ def timer(func: Callable) -> Callable:
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         start = time.perf_counter()
         result = func(*args, **kwargs)
-        # Synchronize MPS operations before timing
+        # Synchronize GPU operations before timing
         if torch.backends.mps.is_available():
             torch.mps.synchronize()
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
         elapsed = time.perf_counter() - start
         print(f"⏱  {func.__name__} took {elapsed:.4f}s")
         return result
@@ -54,6 +56,8 @@ def benchmark_matmul(
     _ = a @ b
     if device.type == "mps":
         torch.mps.synchronize()
+    elif device.type == "cuda":
+        torch.cuda.synchronize()
 
     times = []
     for _ in range(iterations):
@@ -61,6 +65,8 @@ def benchmark_matmul(
         _ = a @ b
         if device.type == "mps":
             torch.mps.synchronize()
+        elif device.type == "cuda":
+            torch.cuda.synchronize()
         times.append(time.perf_counter() - start)
 
     return {
@@ -111,6 +117,8 @@ def benchmark_conv2d(
         _ = conv(x)
     if device.type == "mps":
         torch.mps.synchronize()
+    elif device.type == "cuda":
+        torch.cuda.synchronize()
 
     times = []
     for _ in range(iterations):
@@ -119,6 +127,8 @@ def benchmark_conv2d(
             _ = conv(x)
         if device.type == "mps":
             torch.mps.synchronize()
+        elif device.type == "cuda":
+            torch.cuda.synchronize()
         times.append(time.perf_counter() - start)
 
     return {
@@ -173,6 +183,8 @@ def benchmark_elementwise(
     _ = fn()
     if device.type == "mps":
         torch.mps.synchronize()
+    elif device.type == "cuda":
+        torch.cuda.synchronize()
 
     times = []
     for _ in range(iterations):
@@ -180,6 +192,8 @@ def benchmark_elementwise(
         _ = fn()
         if device.type == "mps":
             torch.mps.synchronize()
+        elif device.type == "cuda":
+            torch.cuda.synchronize()
         times.append(time.perf_counter() - start)
 
     return {
@@ -223,6 +237,8 @@ def benchmark_model_inference(
         _ = model(x)
     if device.type == "mps":
         torch.mps.synchronize()
+    elif device.type == "cuda":
+        torch.cuda.synchronize()
 
     times = []
     for _ in range(iterations):
@@ -231,6 +247,8 @@ def benchmark_model_inference(
             _ = model(x)
         if device.type == "mps":
             torch.mps.synchronize()
+        elif device.type == "cuda":
+            torch.cuda.synchronize()
         times.append(time.perf_counter() - start)
 
     return {
@@ -282,6 +300,8 @@ def benchmark_model_training(
     optimizer.zero_grad()
     if device.type == "mps":
         torch.mps.synchronize()
+    elif device.type == "cuda":
+        torch.cuda.synchronize()
 
     times = []
     for _ in range(steps):
@@ -293,6 +313,8 @@ def benchmark_model_training(
         optimizer.zero_grad()
         if device.type == "mps":
             torch.mps.synchronize()
+        elif device.type == "cuda":
+            torch.cuda.synchronize()
         times.append(time.perf_counter() - start)
 
     return {

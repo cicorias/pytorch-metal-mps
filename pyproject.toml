@@ -1,7 +1,7 @@
 [project]
 name = "metalcheck"
 version = "0.1.0"
-description = "PyTorch environment for macOS Metal (MPS) GPU acceleration on Apple Silicon"
+description = "PyTorch GPU benchmarks for macOS Metal (MPS) and AMD ROCm acceleration"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -23,6 +23,7 @@ dependencies = [
 
 [project.scripts]
 check-mps = "metalcheck.device:main"
+check-rocm = "metalcheck.device:main"
 
 [dependency-groups]
 dev = [
@@ -43,6 +44,7 @@ torch-backend = "auto"
 # Constrain dependency resolution to macOS Apple Silicon only
 required-environments = [
     "sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
 ]
 
 [tool.pytest.ini_options]
