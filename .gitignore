@@ -15,6 +15,9 @@ wheels/
 # macOS
 .DS_Store
 
+# Benchmark output (CSV, PNG, logs)
+output/
+
 # IDE
 .idea/
 *.swp
